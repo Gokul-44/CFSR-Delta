@@ -1,0 +1,56 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+
+# ===== Virtual Environments =====
+cfsr_env/
+venv/
+.venv/
+env/
+ENV/
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+
+# ===== Datasets (too large for GitHub — see README for download) =====
+datasets/
+
+# ===== Model Weights (download from GitHub Releases) =====
+model_zoo/
+checkpoints/
+*.pth
+*.pt
+*.onnx
+
+# ===== Generated Outputs =====
+results/*_SR/
+results/*.html
+results/*.txt
+
+# ===== OS Files =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Misc =====
+*.pdf
+*.log
+
+# ===== Whitelist: curated assets for README =====
+!assets/
+!assets/**
+!results/figures/
+!results/figures/*.png
+!results/benchmark_results.json

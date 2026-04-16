@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "set5_gain": 0.001,
+  "baseline": {
+    "Set5": {
+      "psnr": 32.3301,
+      "ssim": 0.8965
+    },
+    "Set14": {
+      "psnr": 28.7321,
+      "ssim": 0.7844
+    },
+    "B100": {
+      "psnr": 27.6311,
+      "ssim": 0.7383
+    },
+    "Urban100": {
+      "psnr": 26.2093,
+      "ssim": 0.7899
+    },
+    "Manga109": {
+      "psnr": 30.7274,
+      "ssim": 0.9114
+    }
+  },
+  "delta": {
+    "Set5": {
+      "psnr": 32.3311,
+      "ssim": 0.8965
+    },
+    "Set14": {
+      "psnr": 28.733,
+      "ssim": 0.7843
+    },
+    "B100": {
+      "psnr": 27.6319,
+      "ssim": 0.7382
+    },
+    "Urban100": {
+      "psnr": 26.2096,
+      "ssim": 0.7899
+    },
+    "Manga109": {
+      "psnr": 30.7278,
+      "ssim": 0.9114
+    }
+  },
+  "config": {
+    "seed": 69,
+    "init_scale": 0.0001,
+    "hidden_ch": 32,
+    "lr": 1e-06,
+    "refine_params": 11011
+  }
+}

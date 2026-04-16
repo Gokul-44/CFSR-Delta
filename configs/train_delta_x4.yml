@@ -1,0 +1,74 @@
+# CFSR-Delta Training Configuration (×4 Super-Resolution)
+# ========================================================
+#
+# This config documents the exact training recipe used to produce
+# the final RefineNet checkpoint with positive PSNR gain.
+#
+# Usage:
+#   python scripts/train.py --backbone_weights model_zoo/CFSR_x4.pth \
+#       --data_dir datasets/DF2K/HR
+
+# Original CFSR Backbone Training (for reference)
+baseline:
+  name: CFSR_x4
+  scale: 4
+  architecture:
+    dim: 48
+    depths: [6, 6]
+    dw_size: 9
+    mlp_ratio: 2
+    upsampler: pixelshuffledirect
+  training:
+    total_iter: 300000
+    optimizer:
+      type: Adam
+      lr: 2e-4
+      betas: [0.9, 0.99]
+    scheduler:
+      type: MultiStepLR
+      milestones: [200000, 250000]
+      gamma: 0.5
+    loss:
+      type: L1Loss
+      loss_weight: 1.0
+
+# Delta RefineNet Training
+delta:
+  name: CFSR-Delta_x4
+  scale: 4
+  architecture:
+    hidden_channels: 32
+    init_scale: 1e-4       # Last conv weight init std
+    # Total params: 11,012
+    # Architecture: Conv(3→32)→ReLU→Conv(32→32)→ReLU→Conv(32→3)
+    # Connection: output = backbone_SR + body(backbone_SR)
+  training:
+    strategy: peak_capture
+    seed: 69
+    total_iter: 10000       # Maximum (early stop fires earlier)
+    optimizer:
+      type: Adam
+      lr: 1e-6             # Ultra-conservative constant LR
+      betas: [0.9, 0.99]
+    grad_clip: 0.5
+    batch_size: 16
+    patch_size: 64          # HR patch size
+    eval_interval: 50       # Evaluate Set5 every N iters
+    patience: 5             # Early stop after N non-improvements
+    loss:
+      type: L1Loss
+      loss_weight: 1.0
+
+# Dataset
+data:
+  train:
+    name: DF2K
+    path: datasets/DF2K/HR
+    # DIV2K (800 images) + Flickr2K (~2650 images)
+    augmentation:
+      horizontal_flip: true
+      vertical_flip: true
+      rotation_90: true
+  benchmark:
+    path: datasets/benchmark
+    datasets: [Set5, Set14, B100, Urban100, Manga109]
